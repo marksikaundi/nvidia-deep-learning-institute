@@ -1,0 +1,108 @@
+Sometimes it's not the model that the data
+There's a lot of things around this
+Garbage in garbage out
+You can't make a silk purse out of a sow's ear
+Just like us humans, neural networks learn from example and if the examples aren't great, the model
+won’t learn either
+The other thing to consider is to have enough varied examples
+For example, let’s consider what it takes to teach a kid what a dog is
+There a many different kinds of dogs
+not just different breeds, but even within a breed there are many variations
+Size, coloring, hair length
+the size of the snout, the length of a tail
+If I was an alien that came from a different planet
+I might be surprised to learn that Chihuahuas and Great Danes are from the same species
+At the same time, we should also be providing many different examples of what a dog isn’t
+Coyotes foxes and jackals are all closely related
+but are technically not domesticated dogs
+If we only provided one or two examples of what a dog is and what a dog isn’t
+our model won’t be able to generalize its definition of a dog
+Sure seems like a lot of work
+Wouldn't it be great if we didn't have to do all of it
+If you've ever spent time altering photos digitally we're going to be using a lot of the same tools found in Photoshop or Gimp
+to expand our datasets
+For instance even though I change the hue in our marble photo we could still tell that it's a marble
+Many machine learning frameworks already have tools in them to alter photos
+We’re going to go over a few the tricks available to us
+These aren't tricks that will always work well in every situation. Depending on what we're training our model to do
+We might end up confusing it instead
+Let's say we're making a model to identify flowers. color would likely be critical information so changing
+the color like I did above would end up being unhelpful
+Let's start with image flipping
+In this case, we can imagine our photo is printed on a sheet of paper
+We're just flipping that sheet of paper over
+Fair warning though flipping an image dataset might not always be appropriate
+Fun fact
+With a few exceptions
+most words in American Sign Language can be mirrored depending on whether you’re right handed or left handed
+so horizontal flipping is appropriate for our dataset
+On the other hand, vertical flipping probably is not effective
+since people aren’t usually upside down when signing.
+We can also think of our mnist dataset
+If we both vertically and horizontally flip our sixes
+they’ll look like nines
+A related one is rotation
+Related to Liz rotation
+We can still imagine our piece of paper, but now we’re rotating it
+Is this one that's appropriate for American Sign Language
+Within reason. Just checking with my own posture, it’ pretty difficult to get into the exact same position 100
+Percent of the time
+but we also might expect that signing at a 90 degree angle would be pretty out of place
+In fact many of these tools
+It's easy to go too far
+Let's take a look at zooming
+If we think of our sheet of paper analogy, we can imagine we’re bringing the sheet closer to our faces.
+Here we have our marble, and we’re zooming in on it more and more from left to right, top to bottom
+For the first two or three, yeah, we can still tell that it’s a marble
+but especially at the fourth one, we’re starting to lose too much information to be able to properly recognize it
+We usually only zoom into our pictures, because if we zoom out, we’ll need some sort of padding around the edges to keep our picture
+the same number of pixels.
+When we zoom in however, we can keep track of the pixels outside our field of view in order to do some shifting. 61 00:04:04,736 --> 00:04:06,528 Another word for this is Translate
+We’re just going to move our image left or right and up or down.
+In the center here, we’ve zoomed in on our marble. Each of the surrounding pictures has the same zoom, but has been shifted either up
+right, down, or left
+All of these ways where we can warp an image in a physical dimension has an underlying concept called a homography
+We can imagine we have a camera and an image
+and depending on our camera’s position and our image’s position, we can project our image in three dimensional space
+We can do all this with some matrix multiplication
+Pretty neat!
+There are other things besides physically moving our image
+We can adjust the pixel values as well
+Here we have some examples of brightness
+This is a great one to consider for real world images
+Because unless the photos are professionally shot
+It's unlikely that lighting will stay consistent
+Just don't get too crazy with the brightness adjuster
+If it is too dark or too bright
+We won't be able to see the image
+In the upcoming lab will be working with colored images
+Colored images are 3D objects
+The third dimension now representing different color channels like red green and blue (RGB)
+Each of these different channels has their own independent value
+So for instance if the red channel is 255 green is 0 and blue is zero
+Then the pixel value will be red
+Red 125 green 0 and blue 255
+results in a purplish color
+There are non-color channels too like alpha in RGBA
+Which represent transparency
+Channel shifting takes the pixels in each of these channels and adds or subtracts a random amount.
+a closing thought before we move on to the next section
+How many pictures do we get out of our original marble image?
+By my count, it’s 39, including the cropped ones
+This is an extremely powerful way to get more data
+Pro tip
+randomly sample the images coming out of our random image generator
+If the images can’t be interpreted by human eyes, chances are the computer will have a tough time too
+Ok, one last thought before moving to the lab, and that’s model deployment.
+Our model expects a particular input dimension, but it’s very possible that when we deploy our model for use in production
+or the real world
+the format of the data we get from users is different then the format we trained on.
+Also, Keras models typically assume training batches,
+Meaning it learns on more than one image at a time
+Let's say we get an image that we want to make a prediction on, that it's a different shape than what we trained on.
+We can resize the image, to get the correct width and height
+If our image is in color, and our model was trained on grey-scale, there are tools to do the conversion
+Another way is to take the average between the red green and blue channels
+Finally, to turn it from a single image into a batch, we can add a new axis along the first dimension
+That’s just a fancy way of saying we’re going to put a new pair of brackets on the outside of our image.
+Okay that's enough for now. Let's get some practice in the lab

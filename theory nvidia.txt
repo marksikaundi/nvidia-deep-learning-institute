@@ -1,0 +1,239 @@
+Start of transcript. Skip to the end.
+Okay so what just happened let's go over it step-by-step
+We loaded and visualized our data
+We edited our data to get it into the right shape, as well as normalizing the values between 0-1
+We also edited our “answers” to be in a categorical form, instead of a number,
+as our model will better train with that type of answer
+We then created our model, compiled our model,
+and trained our model on the data
+Let’s start with our data. We received each 28x28 pixel image as an array of 784
+Integers
+We then normalized that data
+by dividing it by 255
+The max value for a pixel
+We then took our answers, or labels,
+Which were in the format of an integer between 0 and 9
+and made it categorical, representing it as an array of 0s with 1 at the index of the correct digit.
+Let's talk about our model
+We can't fully represent it in a slide because it has many connections
+Remember that there is 784 inputs
+Two layers of 512 neurons
+and an output layer 10 neurons one for each digit
+Every neuron in each layer is connected to every neuron in the next layer
+That is what the Dense layer in Keras means
+This means there are a lot of connections
+784 * 512
+Plus 512 * another 512
+Plus 512 * 10
+Looking at this
+Can you guess what the approximate magnitude is?
+That's 668,672 connections
+In order to understand how this network came about
+let’s looks at a simpler model.
+Each of the circles on the slide before is a neuron
+The earliest use case of this neuron was to build a regression line
+Y equals MX plus b
+Regression is when we use an input to predict a continuous output
+Like using how many seconds a pot of water has been sitting on a stove
+to predict the temperature of the water
+For each variable coming into our neuron, we're going to find a slope or M
+We will also find a y intercept or B
+Which is a constant value not impacted by the other variables
+Our goal here is to find a line that can pass through these points.
+That way we can use that line to make predictions
+Some of you that have taken statistics before probably know of a more deterministic way to get M & B
+We can verify through algebra that m is equal to 2 and b is equal to one
+We're going to do a more trial-and-error approach
+We're going to pick random value start
+Usually between -1 and 1
+We're going to pick negative one for M & 5 for B to make things easier to visualize
+The y hat here, the one with the little hat
+Is going to be our estimate of the true value y
+Most of the time our guess is going to be a bit off, so how do we correct it?
+Traditional regression lines are built on the concept of least squared error
+Meaning we're going to take the difference of each estimate from the true value and square it
+This keeps our error positive so when we figure out our total error
+They don't cancel each other out
+It also strongly punishes bad guesses
+If it's been awhile since seeing some of these math symbols, no problem
+We can code our root mean square error or rmse like this
+For each of our points, we'll figure out what the difference is between y and mx + b
+Then we’ll square that difference, and then take the average of all squared differences
+Ok, phew, that was a lot of math
+Let’s graph out our m and our b in relation to our mean squared error
+On the left, we have a surface plot of our loss function. That’s the error function we choose to evaluate
+our model, which in our case is MSE. It’s a little hard to read, so on
+the right, we’ve plotted the contours.
+With that, we can see that it’s actually a kind of parabolic ellipse that bottoms out at b=1
+and m=2
+If this is our guessed line, we can see where our current position is on the curve. Our goal is to find the
+minimum error, and since it’s a toy example, we know that the minimum is 0. For us humans,
+it’s easy to see that the bottom is around m = 2 and b = 1
+but for the computer, it’s not so easy to see that. (The computer can’t visualize this loss curve
+without some help. Turns out the computer
+Isn't the best at calculus, so we're going to help it cheat
+We have two leavers to help us move: m and b. We can change b, our intercept, or m
+our slope.
+Let's start with b, If we subtract 1
+Cool, our line hits one of the points now
+But it's still missing the other one
+Let's increase the slope by 1
+Darn it, now we’re missing both points
+but the MSE did decrease from 2.5 to 1.
+The computer doesn’t have our “human eyeball” ability to guesstimate what it should change in order to get to the bottom of this bowl
+so what it’s going to do is given the current posiiton that it’s at, it’s going to calculate the gradient
+Which is a fancy way to describe a multivariate slope
+It’s going to figure out in which direction is the loss decreasing the most, which is going to be some ratio of b
+to m
+Once we have a direction we need to figure out how far to travel with it
+The gradient is going to change depending on our current position, so we don’t want to make to big of a step because we can
+accidentally move farther away from our target.
+We also don’t want to be too small because that means it can take a long time to get to our goal, and life it too
+short to wait for a model to finish training
+The amount we travel is something we decide
+And it's in a parameter called The Learning rate
+Now that we're in a new position we repeat the process
+find the new gradient and take another step
+There are a few ways to measure our progress
+There are Epochs
+Which is another way to say
+One pass through all the data
+It used to be that people calculated the gradient using the full dataset
+But nowadays people see that it is more efficient to use a sample or batch from the dataset
+In either case, a step is we take either a full dataset or a batch, calculate the gradient
+And update our parameters with the gradient and learning rate
+After a few steps this is what our journey will look like
+This process to find the minimum loss is called gradient descent
+Thankfully, a lot of research has been done on the best way to define the learning rate
+and machine learning frameworks have a few tools that will automatically adjust the learning rate
+For instance a popular one is adam or adaptive momentum
+Which is kind of like thinking of our loss curve as a mountain and our position as a marble
+If you drop a marble on top of a mountain it will pick up speed jumping over trenches
+before hopefully landing at a lower minimum
+Adam has since been improved, and the current default in TensorFlow is called ‘RMSprop’.
+Now that we have the core concepts down, we can start building up our network
+Instead of having a singular x input with the slope m
+We're going to have multiple X inputs
+X1
+X2 X3 and so on
+and find each of them a weight
+The previous math stays mostly the same
+We just need to find the gradient using the new variables like we did before
+We can also take the output of one neuron and feed it into another and as long as we don't make a loop, we can connect the same
+Output to multiple inputs
+Badum!
+With this, we officially have a Deep Learning Network
+When we calculate our new weights from gradient descent
+we can use the error calculated in a later neuron as part of the error for the previous neuron it’s connected to.
+Most Frameworks automate this part for us so we're not going to go too much into the match
+But I'll leave some links in the notes that explains how it works
+There's one mathematical gotcha you should keep an eye out for and that's our activation function
+Right now we're just doing a linear sum
+So we get a line in 2d or a plane in 3D
+This is a bit of a waste on a neural network
+The only output we will get from adding lines together is another line
+And it would be nice to be able to capture more complex shapes
+Here's the strategy
+Computers like equations of a line because they're quick to compute
+and it's easy for us to give it the rules and how to differentiate them
+One easy way to add non-linearity is to feed our equation of a line into another non-linear function
+One of the most popular ones is ReLU, the Rectified Linear Unit
+This is just a fancy way of saying whenever the output of our line is negative
+Are going to set it to zero
+Because the output of our neuron gets assigned a weight if it’s fed into another neuron
+there’s a chance the output can become negative.
+Another important activation function is sigmoid. It manipulates our line so we get this S shape that goes from 0 to 1
+This is great because then we can use our neurons to assign probabilities to predictions
+All these graphs start with linear functiom that gets squeezed through an activation function
+In actuality, we’re likely to have more than one input into our neuron, and this is what shape these activation functions
+give our neurons in three-dimensional space
+Linear is just a plane, like a sheet of paper. ReLU is like a wedge. Sigmoid is like a surf
+wave
+Here's how an understanding of all this math is going to help us
+Let's see we have a one input one output dataset
+that we suspect is a summation of two waves
+we can use a sinusoidal activation function our first layer
+And a linear activation in our last layer so we can add the two
+Given enough data, our neural network will figure out the parameters of each of these subcomponents for us
+Having a general understanding of the shape of the data and the relationship between the variables
+can help us build more efficient models for our data saving time, computation, and ultimately money
+If we can make these complicated shapes with more and more layers and neurons
+Why not make a super big neural network to solve every problem
+Can you think of any of the pitfalls that can happen from having too big of a model?
+We could be wasting a lot of computational resources
+And it can also take longer to train
+But there's another problem we should be aware of
+The problem goes back to classical statistics but it still plagues neural networks
+Let’s say we’ve gone out, collected some data, and created two models.
+Which one of these is better
+Going by the root mean square error
+It's the one on the left
+But what if I was to go out and get a new sample of data
+It turns out our simpler model does a better job generalizing to new data
+Not all problems can be so simple
+and it's the job of the data scientist to be able to determine the correct complexity for the problem
+Remember when we had to separate pools of data: training and validation?
+So that we can be sure the network is not just memorizing the data that it's learning on
+We need to make sure that when it sees new and different images that it is accurate as well
+If the model performs well on training data
+But not on new data
+we call this overfitting
+We just went over many parts of a neural network. let's see how it applies the last lab
+This was the visualization of the model used in the previous lab
+Can you name some of the components that we just learned on the diagram?
+Any details missing?
+Here's a more detailed version of the diagram now including activation functions
+We use ReLu in our hidden layer to add efficient nonlinearity
+but why use sigmoid at the end?
+This way, we can get a probability for each digit
+But wouldn't it be useful if all the probabilities for all 10 of our digits added up to 100%?
+How can we do that?
+Not a problem
+there is a function many ML libraries have called softmax
+It’s going to add the results of all the sigmoid functions across the layer
+and then reweight them so that they add up to 100%
+Let's say we had a group of points that are categorized by color
+How do we use a root mean squared error line to predict whether a new data point is going to be red or blue?
+This time, we want to find a line that best separates the data
+The error function that we used to calculate our gradient descent
+Is called the loss function or cost function
+We could try to assign numbers to these colors and use root mean squared error
+But there's a better way
+The most popular way to approach this problem is with categorical cross entropy
+Before we dive into the math, let's talk about the logic
+We're going to assign a probability to each point whether it's red or blue
+We can almost think of this probability as our confidence it is in a particular class
+Cross entropy was designed like this
+If we are 100% confident that a point is blue
+and we’re right
+Perfect, zero loss
+However if we're wrong
+We should be punished for hubris and received infant loss
+This works in the reverse case as well
+If we assign a point a 0% chance of blue
+That is, we are absolutely certain it is red
+And it is not blue
+We get no loss
+However if it is blue
+we’ll have infinite loss
+Here's the full mathematical formula for binary cross entropy
+Meaning we only have two classes
+The logarithms are used to get our near-infinite loss
+It might seem like a lot
+But there's a little trick
+The left half cancels to 0 when the target is false
+and the right half cancels to 0 when the target is true
+Here’s the code version, for all you programmers out there.
+This is the same math as a side before but in code form
+y hat is our prediction that a point is blue
+And y actual is whether a point was actually blue or not
+The logarithms are what will push our code to Infinity
+as log(0) is negative infinity
+Okay now that we know that major mechanics let's talk about the next Lab
+We're going to try this again with a different dataset
+The American sign language alphabet
+We'll have the same shape as last time
+28 by 28 pixels
+We're going to be skipping J and Z because they require movement
+Feeling more confident about neural networks?
+Let's get to it

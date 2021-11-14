@@ -1,0 +1,200 @@
+Start of transcript. Skip to the end.
+My name is Danielle and I'm a Content developer here at NVIDIA
+I'm looking forward to being your guide during this introduction to deep learning
+Studying AI can be pretty challenging but it's also very rewarding
+Not only can we learn how robots think
+But we can also pick up a few tricks to help humans be more efficient Learners too
+That's what this first lecture is going to be about
+Excited? Me too.
+Let's get going
+Okay so I have my computer down here and the cameras up there and we're going to go over some technical things before we jump into the theory so
+below this video
+You should hopefully see something like this
+That has the start button up in the top right so go ahead and click it
+And that's going to wake up our GPU
+And when we do that we could also see a copy of the slides are we are going over
+What's really cool about this
+Is down here you can expand it by pressing this open a new window
+And in the bottom right here, we can also click on the notes
+This is the first slide here. It doesn't have any notes but as we go through it
+You can see a transcript of what we are going to be talking about
+And I also like to sneak in like little extra bits of trivia in here and some links so hopefully that helps
+Alright so when the GPU wakes up it's going to look something like
+This
+When I click on this launch task button
+It's going to take me to the jupyter notebook
+So there is a couple more things I'd like to share with you
+On the left here, we have our directory of files go ahead and read them in alphabetical order
+When you're done I highly highly recommend saving your work
+By right clicking it and going to download
+In the future if you want to be able to reference that downloaded notebook
+You can go ahead and upload it again by clicking this up arrow and uploading it
+Now these notebooks are pretty small hopefully you won't run into any memory issues but if you do
+We can click here, this circle
+And we could see the kernels that are running for each of these notebooks
+Each notebook is a bit of a memory hog, so if we shut that down
+It'll release the memory for the rest of the GPU
+This will probably be a good time to go over the goals of this course
+Artificial intelligence and machine learning
+These are huge fields they can take years to master
+So this courese is kind of like a teaser taster of what's to come
+I like to think of it as a tutorial to an open world game
+We might not be able to go through all the mechanics within the game but enough to get a start and have some fun
+If you're not a gamer and you're more of a gym person I like to think of it as going to the gym for the first time in a long time
+It might be challenging
+And we might be a little sore tomorrow
+But we'll have a better understanding of ourselves
+And also have a better idea of what we want to work on whether it's arm muscles or a leg muscles or in this case
+Our math and computer science muscles
+Okay well I think it's time to jump into the theory so I'm going to jump off camera
+Okay good luck
+Some of the cool things about studying artificial intelligence we have this fun opportunity to learn a little bit more about ourselves
+Many groundbreaking techniques in machine learning or developed by better understanding the biology and psychology of humans and
+Animals
+More research is starting to show that the best learning environment is very similar to a video game
+One where we're free to make a mistake and learn from it too
+So we hope you approach this material like a fun challenge
+If you take part in the coding exercises you'll have access to the material for up to a year so it's almost like you have
+infinite lives
+The technical term for learning while having fun is called relaxed alertness our brains effectively have a gate between when we're
+Executing versus when we're learning
+Which like how neural Nets and machine learning models have training and prediction phazes
+So with all that human Psychology out of the way let's get into robot psychology
+Let's start with the prologue to her story
+How did we get to where we are today
+Humans have been trying to teach computers to perform tasks since their invention
+Early in the days in computers many people were convinced that they would achieve human-level intelligence within a few decades
+It turned out that generalized human intelligence was beyond the grasp of computers at the time
+It wasn't long after the invention of the computer that people started experimenting with artificial neural networks inspired by the
+Structure and function of human brains
+During World War II many scientists engineers tried to find a standard for building a computer
+They played with the idea of neural networks but they lost out to the reliability and efficiency of the Von Neumann architecture
+I'm not going to get into the Van Neumann architecture because that's a lengthy and fascinating topic tangential to machine learning
+So I leave some references in the notes instead
+Long story short it is the basis for modern-day computer processing units
+As the recording this chess is popular because of a show called Queen's Gambit
+So I'll share a chess story about neural networks
+Early 90s was an exciting time for AI because it was the first time a computer was able to defeat of reigning World champion
+of chess
+The chess machine deep blue used mostly Brute Force calculation with many hard coded rules that specialist
+and programmers collaborated on
+to limit the board posiitons deep blue computed when looking ahead
+After this momentous occasion the Ai and game world asked
+What's next
+So
+They turn their eyes to backgammon
+Backgammon is similar to chess in that it's a two player turn-based game
+But it differed in that many pieces can be moved in a turn
+And it involves probability with rolling dice
+The Brute Force approach with deep blue had difficulties dealing with games of chance so neural networks were explored
+The neural network did surprisingly well becoming a top player and even helping to discover new strategies but because it was
+Wasn't the best in the world
+People still saw neural networks as toys
+Deep blue is an example of an expert system
+These systems are meant to mimic a human subject matter expert by hard-coding many rules and took hundreds to thousands
+of Engineers to make
+Up until recently this was the dominant strategy of automated decision-making
+However these systems have limitations
+Most importantly rules for these systems had to be understood defined and programmed by humans
+The computer can only do as much as a human engineer was able to understand and turn directly into code
+For some well-defined tasks
+This was fine
+But for some tasks that are simple to humans
+It was extremely difficult to build rules that a computer could follow
+As an example for each of these pictures think of one word that describes them
+For the picture in the left you can describe it as ocean wave or blue
+For the right we can call it Taxi
+Or car or headlight
+And for the center I could say it's cat
+or kitty
+or Cute
+For most adults this probably isn't so tricky
+But how do we teach a newborn child
+Let alone an artificial intelligence
+How to do this
+With children we exposed them lots of data and help them by supplying the correct answer
+A very popular learning technique is trial and error
+where students make a prediction on what the correct answer is
+And if they're wrong
+Adjust their approach
+It turns out that deep learning is very much like this
+So if neural networks weren't used for a long time
+What changed
+The first is data in order for a neural network to learn it must be exposed to lots of different data
+For neural network to learn what a cat is it needs to see many pictures of cats as well as pictures with no cats
+Thanks to the internet there's now lots of data to learn from
+The other major factor is computing power
+If we're effectively training an artificial brain let's think about our own for a second
+How many gigabytes of information do we observe in a given second
+What's the framerate of life
+What is the resolution of the human eye
+While modern AI is impressive we humans process significantly more data in a second than an AI does
+One way machines can try to catch up to us humans
+Is with higher computing power
+It turns out that under the hood neural networks are matrix multiplication machines
+What other types of problems required many matrix multiplications
+Computer graphics
+With computer Graphics objects are represented as many tiny triangles working together to give the illusion of something more
+With animation simulation and gaming these tiny triangles are often transformed and rotated requiring
+Matrix manipulation
+Since doing that works and Graphics are both built on top of the same fundamental mathematical problem
+It's no surprise that the hardware for one can effectively be used for the other
+An especially important invention in tackling this training was the parallel processor
+The math required to train a neural network is not especially complex
+But the calculations must be performed millions billions or even trillions of times
+While a CPU might have tens of cores, a GPU can have hundres to thousands allowing for faster parallel
+Processing of this task
+So what is deep learning
+And what makes it special
+Deep learning flips traditional programming around
+For example
+Normally to build a classifier you come up with a set of rules
+And program those rules
+Then when we want to classify something
+We give it a piece of data and the rules are used to select a category
+With deep learning, we first need a list of variables
+inputs and their corresponding outputs
+We don't need to know the relationship between the inputs and outputs
+But the more accurate we can observe their values
+The better
+We’ll call this list of examples the dataset
+We then train a model by showing it the dataset and the correct outputs
+The model keeps taking guesses, and finds out if it was right or not
+It slowly learns to correctly categorize over the course of training
+The fundamental difference is that instead of humans needing to identify and program the rules
+a deep learning algorithm will learn them on its own
+This is a fundamental shift in the way we build software systems
+Deep learning is not always the right choice
+If the rules are clear and straightforward it's often better to just program it
+However if the rules are nuanced or complex
+and humans would have a hard time describing them, let alone programming them
+deep learning is a great choice
+Something that separates deep learning from traditional machine learning is the depth and complexity of the network that are used
+For especially complicated tasks such as natural language understanding
+Networks can have billions of parameters
+The deep in deep learning refers to the many layers in a model that learn the important rules necessary for completing a task.
+These are often called hidden layers
+Deep learning has only been a major factor in the last decade or so
+but it has had huge impacts on many industries
+The field of Computer Vision has been around long before the field of Deep Learning, but thanks because there are now more and more tagged
+high quality images available
+Deep learning is having a large influence
+The goal of computer vision is to teach machines to see and perceive images the way that humans do
+Thanks to the complexity of our eyes, not to mention the processing our brains do with these images
+This is no easy task
+Natural language processing has helped make huge shifts
+for example, on highly accurate real-time language translation
+As well as voice recognition and virtual assistants
+Recommender systems based on deep learning fuel the internet with content curated feeds such as Facebook
+Music like Spotify video like YouTube and Netflix as well as targeted online advertising and
+Shopping recommendations such as Amazon
+Reinforcement learning has achieved incredible results at matching human expert performance
+Such as the AI alphago which beat the world champion and what is considered one of the most difficult and complex games
+In the world
+AI Bots are now also taking on world experts at complex video games such as Starcraft and dota
+Before we get too much into theory and the specifics of deep learning we're going to act like an AI and play with a
+neural network right away
+See if you can figure out how we went about constructing the model
+Feel free to experiment and alter code
+You can always restart the GPU instance in order to get a fresh start if your curiosity gets a little too
+Crazy

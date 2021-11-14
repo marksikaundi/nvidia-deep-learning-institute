@@ -1,0 +1,149 @@
+Alright let's talk about the previous lab
+We made a dense neural network, and ...
+It did okay. 9 out of 10 accuracy
+Not bad for a machine but
+Not as good as a human
+We also saw that the training accuracy was pretty high but the validation accuracy was low which means it probably was
+overfitting
+So today we're going to do something called convolutional neural networks which is a fun technique which allows our machines to percieve
+Images much more closely to the way that humans do
+Sounds cool right? okay let's get going
+Before we get into neural networks, lets talk about how Computer Vision experts used to approach this type of problem
+If you played with Photoshop, MS Paint, or GIMP a lot as a kid
+making .gifs or memes or stilly pictures
+Good news!
+Understanding how computers represent and manipulate photos is a great foundation for modern-day computer vision
+For example, let’s look at the blur, sharpen, brighten and darken tools
+In a drawing program, the area around where we click that manipulates our image is called the kernel
+Convolution is when our kernel is multiplied with our image
+and that is what’s happening when we select these tools and drag it across our image
+To be technical convolution is when we apply a function to another function
+but we can think of our base image as a function of color
+and our kernel as a function of pixels
+The kernel is just a small Matrix
+blurring is a weighted averaging of the numbers that represent the pixels
+Sharpen brightens the pixel in the center of it, but subtracts the pixels directly adjacent to it
+Brighten makes the center pixel’s color values bigger (darken does the oppposite)
+Okay so we have a picture of a heart
+Not obvious?
+Sorry I only had 6 by 6 pixels to work with
+We're going to take a step through a convolution
+Fancy star in the center is the convolution operator
+The resulting image is going to be four by four pixels
+Let's start in the top of corner
+We call the section that we’re about to convolve
+the red box here, the window
+Notice how it has the same shape as our kernel.
+We’re going to take our kernel and multiply each cell in the kernel with the respective cell in the window.
+We’re then going to total the results of that multiplication
+Next, we move or window over by 1
+and we repeat the process until we’ve calculated the convolution for the whole image.
+There are a few parameters we can play with for convolution
+One is stride, which is by how many cells should we move our window by when doing convolution
+Let's chop our heart in half to see what we mean
+Oh no, broken Heart
+Let's assume we have the same kernel as before
+With a stride of 2, we skip starting convolution at every other column and every other row
+When we do this, we also generate less data
+Which has pros and cons
+The good is that means you have less data to analyze
+But if we increase our stride too much
+We might miss important information
+The other thing to look for is with a stride of 2
+We don't have enough columns to do a convolution for the right side of this image
+If we want enough data to make sure all pixels are used in convolution
+or if we want the resulting image to be the same size as our input image
+we can do something called padding
+A quick and easy way to do this is called zero padding
+where we add a border of zeros around our image
+This can be sufficient in many cases, but in some where the image is small, it can have an impact on the convolution.
+So how does this apply to neural networks?
+before neural networks, computer vision researchers would play around with the numbers within a kernel
+to see if it can be used to find any interesting features in images. So far, we’ve only used
+3 x 3 kernels, but they can be any size
+and researchers would try to do things like make a kernel that returned a high value
+if it convolved a cat ear
+So, you could have a cat ear kernel, a cat nose kernel
+a cat eye kernel
+and if you ran all those through an image and found matches
+You might guess that there was a cat
+But as neural networks got more and more powerful, people made the connection that
+woah. Kernels are these devices that multiply weights to an input
+and then adds the results together
+What else does that?
+Oh yeah, neurons do that too
+That's exactly what convolutional neural networks are
+They map the inputs of a neuron to a kernel
+with trainable weights
+This is a convolutional neural network architecture
+It is a bit smaller than what will be today in the lab but the structure is similar
+First we have our input image
+We're going to start with the variable number of convolutional layers
+In this case, 2 3x3x1 grayscale filters
+We can have as many as we want and each one of them is going to produce a new image
+by trying to extract interesting features out of the original image
+We're going to stack these images on top of each other so we end up with a three-dimensional image but not 3D in the way that we
+Humans perceive it
+We can then send this new image through a new set of filters.
+When convolving, even though we’re technically doing a 2D convolution because we’re in black and white
+we’re actually convolving a 3D object that is our window size by the number of stacked images
+Because we have two stacked images
+our kernels are digesting a 3x3x2 slice of the stacked images
+In the picture above, we have 2 3x3x2 filters.
+When we’re done convolving, we’ll flatten everything out, and feed the results through our neural net as normal.
+It used to be that data scientists would toy around with the kernel sizes more
+and that’s still useful in some cases
+but empirically, sticking with 3x3 works well
+Let’s go back to computer vision theory to understand why
+when researchers first came up with these kernels before neural networks, they also realized that you can use them to essentially calculate the
+derivative of these images
+What in the world does that mean?
+Well there is a special class of kernels that can pick up edges
+places where the change in color of an image is changing rapidly
+For instance, the kernel on the left picks ups vertical edges and the kernel on the right picks up horizontal edges
+Notice how the horizontal lines are gone in the left?
+That's because if there's a horizontal line there's no horizontal change
+By combining the information from both the horizontal and vertical changes
+Bam!
+We now have a direction of change for each point
+Ever thought of where the term color gradient comes from?
+We can do some cool things with this information
+like be able to identify any circles in our image
+like our marble from earlier
+but rather than figure out the fancy math for this ourselves, we’ll let the neural network do it
+If you're willing to get weird for a second
+The way artificial neural networks work
+is very similar to how our own brains processes images
+Both our brain and the artificial brain will take the edge detectors and feed the results into the next layer
+which will detect intersections between edges
+and will be good at detecting textures and patterns
+Those feed into the next layer and next layer, becoming more and more developed until entire objects can be
+Recognized
+Here's the result of using four layers of three neurons on each of ASL datasets
+Nothing too fancy here because our images are small
+So I also ran our marble through the Deep dream generator website
+Which is built using a much larger neural network
+on plenty of high-resolution photos of many types of objects
+It will enhance the patterns or objects it's able to detect
+Any interpretation here is trying to mind-read an artificial intelligence
+Which is as unscientific as it sounds
+But I can almost make out a cartoon dog
+Google's Inception network was originally trained on lots of dog photos
+so the tools to visualize the intermediate layers ended up displaying many dream-like dog photos
+We’re almost ready for the next lab, there’s just a few more tricks to help us out.
+Pooling is where we look at all the values in our window and do a simple statistical computation
+The most common one is Max Pooling where we take the largest value in the window and discard the rest
+This trick is especially useful when working with large images because it’s a way to shrink images down to a smaller image
+and smaller images mean less computation, which is quicker and cheaper
+Dropout is another interesting tool which in a way, reflects ensemble learning
+During training, we’re going to randomly shutoff neurons at a rate we specify, meaning, it’s unable to learn for
+that step of training
+This prevents overfitting be eliminating overreliance on any particular input or neuron
+Just be careful not to set the rate to 1
+Then all the neurons will be shut off, and the model won’t be able to learn
+here’s the network we’ll be using in the next lab
+We’re also going to do something called batch normalization, \
+where we normalize the amount weights change between layers during training
+Batch normalization was made to prevent something called internal covariate shift, but turns out, it doesn’t actually do that
+Even so, empirically it seems to help with object detection networks.
+Ready to get your hands dirty? let's go!
